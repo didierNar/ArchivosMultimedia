@@ -44,10 +44,11 @@ public class TomarFoto extends AppCompatActivity {
         int tamanio = fotos.size();
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
+        i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir("android.resource://" +
+                "archivosmultimedia.eam.archivosmultimedia/drawable") +
                 "/" + Reunion.getActual().getNombre() + tamanio);
         startActivity(i);
-        cargarFotos();
+        //cargarFotos();
     }
 
     public void recuperarFotos (){
@@ -58,7 +59,8 @@ public class TomarFoto extends AppCompatActivity {
                 ImageView imagen = new ImageView(this);
                 Bitmap bitmap1 =
                         BitmapFactory.decodeFile(
-                                getExternalFilesDir(null) +
+                                getExternalFilesDir("android.resource://archivosmultimedia.eam." +
+                                        "archivosmultimedia/drawable") +
                                         "/" + Reunion.getActual().getNombre() + i + 1
                         );
                 //Se añade la foto al ImageView
