@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.42" />
+
+    <Button
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:text="Crear Reunion"
+        android:onClick="abrirRegistroReunion"
+        android:id="@+id/btnCrearReun" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.04" />
+
+    <Button
+        android:layout_width="348dp"
+        android:layout_height="wrap_content"
+        android:onClick="abrirListaReuniones"
+        android:text="Listar Reunion"
+        android:id="@+id/btnListar" />
+</LinearLayout>
