@@ -17,6 +17,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tomar foto"
+        android:onClick="tomarfoto"
         android:id="@+id/btnTomarFoto"
         android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:id="@+id/lvFotos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.07" />
 </LinearLayout>

@@ -1,14 +1,14 @@
 package archivosmultimedia.eam.archivosmultimedia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import archivosmultimedia.eam.archivosmultimedia.modelo.Reunion;
 
 public class InfoReunion extends AppCompatActivity {
-
-    Reunion reunionActual;
 
     TextView nombre;
     TextView fecha;
@@ -19,9 +19,6 @@ public class InfoReunion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_reunion);
 
-        Bundle datos = getIntent().getExtras();
-        reunionActual = (Reunion) datos.get("reu");
-
         nombre = (TextView) findViewById(R.id.tvNombre);
         fecha = (TextView) findViewById(R.id.tvFecha);
         lugar = (TextView) findViewById(R.id.tvLugar);
@@ -31,9 +28,25 @@ public class InfoReunion extends AppCompatActivity {
     }
 
     public void cargarDatos(){
-        nombre.setText("Nombre: " + reunionActual.getNombre());
-        fecha.setText("Fecha: " + reunionActual.getFecha());
-        lugar.setText("Lugar: " + reunionActual.getLugar());
+        nombre.setText("Nombre: " + Reunion.getActual().getNombre());
+        fecha.setText("Fecha: " + Reunion.getActual().getFecha());
+        lugar.setText("Lugar: " + Reunion.getActual().getLugar());
+    }
+
+
+    public void abrirGestionFotos(View v){
+        Intent i = new Intent(this, TomarFoto.class);
+        startActivity(i);
+    }
+
+    public void abrirGestionAudios (View v){
+        Intent i = new Intent(this, GrabarAudio.class);
+        startActivity(i);
+    }
+
+    public void abrirGestionVideos (View v){
+        Intent i = new Intent(this, GrabarVideo.class);
+        startActivity(i);
     }
 
 

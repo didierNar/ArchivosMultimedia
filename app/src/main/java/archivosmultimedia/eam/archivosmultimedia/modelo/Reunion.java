@@ -14,6 +14,7 @@ public class Reunion implements Serializable {
     private String lugar;
 
     public static final String nomArchivo = "reuniones.txt";
+    private static Reunion actual;
 
     public Reunion() {
 
@@ -50,5 +51,13 @@ public class Reunion implements Serializable {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    public static Reunion getActual() {
+        return actual;
+    }
+
+    public static void setActual(Reunion actual) {
+        Reunion.actual = actual;
     }
 }

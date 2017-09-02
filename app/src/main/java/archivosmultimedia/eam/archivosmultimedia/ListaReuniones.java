@@ -35,9 +35,8 @@ public class ListaReuniones extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Reunion reu = (Reunion) listaReuniones.getItemAtPosition(position);
-
+                Reunion.setActual(reu);
                 Intent intent = new Intent(getApplicationContext(), InfoReunion.class);
-                intent.putExtra("reu", reu);
                 startActivity(intent);
             }
         });

@@ -53,6 +53,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="Gestion Fotos"
+        android:onClick="abrirGestionFotos"
         android:id="@+id/btnGestionFotos" />
 
     <Space
@@ -64,6 +65,7 @@
     <Button
         android:layout_width="352dp"
         android:layout_height="wrap_content"
+        android:onClick="abrirGestionAudios"
         android:text="Gestion Audios"
         android:id="@+id/btnGestionAudio" />
 
@@ -77,5 +79,6 @@
         android:layout_width="344dp"
         android:layout_height="wrap_content"
         android:text="GestionVideo"
+        android:onClick="abrirGestionVideos"
         android:id="@+id/btnGestionVideo" />
 </LinearLayout>
