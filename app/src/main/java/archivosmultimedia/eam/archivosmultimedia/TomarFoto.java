@@ -7,16 +7,20 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import archivosmultimedia.eam.archivosmultimedia.modelo.Reunion;
@@ -25,45 +29,51 @@ public class TomarFoto extends AppCompatActivity {
 
     ArrayList<ImageView> fotos;
     ListView lvFotos;
+    String archivoCantidad = "archivoCantidad.txt";
+    int cantidadFotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tomar_foto);
 
-
         lvFotos = (ListView) findViewById(R.id.lvFotos);
         fotos = new ArrayList<>();
-        listarFotos();
+        cargarNumero();
         recuperarFotos();
         cargarFotos();
 
     }
 
-    public void tomarfoto (View v){
-        int tamanio = fotos.size();
+    public void tomarfoto(View v) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir("android.resource://" +
-                "archivosmultimedia.eam.archivosmultimedia/drawable") +
-                "/" + Reunion.getActual().getNombre() + tamanio);
+        if (cantidadFotos == 0) {
+            //"android.resource://archivosmultimedia.eam.archivosmultimedia/drawable"
+            i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
+                    "/" + Reunion.getActual().getNombre() + "1");
+        } else {
+            i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
+                    "/" + Reunion.getActual().getNombre() + cantidadFotos + 1 + ".jpg");
+        }
         startActivity(i);
-        //cargarFotos();
+        cantidadFotos++;
+        guardar();
+        recuperarFotos();
+        cargarFotos();
     }
 
-    public void recuperarFotos (){
+    public void recuperarFotos() {
 
-        if (fotos.size() != 0) {
-            int tam = fotos.size();
-            for (int i = 0; i < tam; i++) {
+        fotos.clear();
+
+        if (cantidadFotos != 0) {
+            for (int i = 1; i <= cantidadFotos; i++) {
                 ImageView imagen = new ImageView(this);
                 Bitmap bitmap1 =
                         BitmapFactory.decodeFile(
-                                getExternalFilesDir("android.resource://archivosmultimedia.eam." +
-                                        "archivosmultimedia/drawable") +
-                                        "/" + Reunion.getActual().getNombre() + i + 1
+                                getExternalFilesDir(null) +
+                                        "/" + Reunion.getActual().getNombre() + i + ".jpg"
                         );
-                //Se añade la foto al ImageView
                 imagen.setImageBitmap(bitmap1);
                 fotos.add(imagen);
             }
@@ -73,34 +83,42 @@ public class TomarFoto extends AppCompatActivity {
 
     }
 
-    public void listarFotos() {
+    public void cargarNumero() {
         try {
             String[] a = fileList();
             if (existeArchivo(a, Reunion.getNomArchivo())) {
-                ObjectInputStream reader = new ObjectInputStream(openFileInput(Reunion.getNomArchivo()));
-                fotos = (ArrayList<ImageView>) reader.readObject();
+                InputStreamReader reader = new InputStreamReader(
+                        openFileInput(archivoCantidad));
+                BufferedReader br = new BufferedReader(reader);
+                String linea = br.readLine();
+                if (linea == null){
+                    cantidadFotos = 0;
+                } else {
+                    cantidadFotos = Integer.parseInt(linea.toString());
+                }
+                br.close();
                 reader.close();
             }
         } catch (IOException e) {
 
-        } catch (ClassNotFoundException c) {
-
         }
     }
 
-    public void cargarFotos(){
+    public void cargarFotos() {
         ArrayAdapter<ImageView> adapter = new ArrayAdapter<ImageView>(this,
                 android.R.layout.simple_list_item_1, fotos);
         lvFotos.setAdapter(adapter);
     }
 
-    public void guardar(ArrayList<Reunion> re) {
+    public void guardar() {
         try {
-            ObjectOutputStream writer = new ObjectOutputStream
-                    (openFileOutput(Reunion.getNomArchivo(), Activity.MODE_PRIVATE));
-            writer.writeObject(re);
+            OutputStreamWriter writer = new OutputStreamWriter(
+                    openFileOutput(archivoCantidad, Activity.MODE_PRIVATE));
+
+            writer.write(cantidadFotos+"");
             writer.flush();
             writer.close();
+
         } catch (IOException e) {
             Toast.makeText(this, "Error al crear el archivo", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
