@@ -28,9 +28,10 @@
         android:layout_weight="0.06" />
 
     <Button
-        android:layout_width="357dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Detener grabacion"
+        android:onClick="detenerAudio"
         android:id="@+id/btnDetener" />
 
     <Space
@@ -45,10 +46,19 @@
         android:id="@+id/scrollView3"
         android:layout_weight="0.78">
 
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listaAudios" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="442dp"
+                android:id="@+id/listaAudios" />
+
+        </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>
