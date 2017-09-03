@@ -15,12 +15,12 @@
         android:layout_weight="0.08" />
 
     <Button
+        android:id="@+id/btnGrabarVideo"
         android:layout_width="339dp"
         android:layout_height="wrap_content"
-        android:text="Grabar nuevo video"
-        android:id="@+id/btnGrabarVideo"
+        android:layout_gravity="center_horizontal"
         android:onClick="grabarVideo"
-        android:layout_gravity="center_horizontal" />
+        android:text="Grabar nuevo video" />
 
     <Space
         android:layout_width="match_parent"

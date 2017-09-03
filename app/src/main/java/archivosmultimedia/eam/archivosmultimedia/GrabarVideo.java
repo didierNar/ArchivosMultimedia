@@ -66,6 +66,7 @@ public class GrabarVideo extends AppCompatActivity {
         guardar();
 
         startActivity(i);
+        listarVideos();
     }
 
     public void cargarNumero() {
@@ -106,6 +107,7 @@ public class GrabarVideo extends AppCompatActivity {
     }
 
     public void listarVideos (){
+        videos.clear();
         if (cantidadVideos == 0){
             Toast.makeText(this, "No hay videos de esta reunión",
                     Toast.LENGTH_SHORT).show();
