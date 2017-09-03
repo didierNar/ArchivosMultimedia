@@ -24,7 +24,7 @@
         <activity android:name=".TomarFoto" />
         <activity android:name=".CrearReunion" />
         <activity android:name=".ListaReuniones" />
-        <activity android:name=".ReproducirVideo"></activity>
+        <activity android:name=".ReproducirVideo" />
     </application>
 
 </manifest>
