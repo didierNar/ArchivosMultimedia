@@ -22,9 +22,16 @@
         android:id="@+id/btnTomarFoto"
         android:layout_gravity="center_horizontal" />
 
-    <ListView
-        android:id="@+id/lvFotos"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="0.07">
+
+        <LinearLayout
+            android:id="@+id/layoutFotos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </LinearLayout>
