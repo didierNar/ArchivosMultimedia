@@ -34,11 +34,19 @@
         android:id="@+id/scrollView2"
         android:layout_weight="0.82">
 
-        <ListView
-            android:id="@+id/listaVideos"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.08" />
+            android:orientation="horizontal">
+
+            <ListView
+                android:id="@+id/listaVideos"
+                android:layout_width="match_parent"
+                android:layout_height="452dp" />
+
+        </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>

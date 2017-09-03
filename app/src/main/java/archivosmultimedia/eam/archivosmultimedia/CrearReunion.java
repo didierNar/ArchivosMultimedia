@@ -71,8 +71,7 @@ public class CrearReunion extends AppCompatActivity implements View.OnClickListe
         } else {
             if (reuniones.size() != 0) {
                 for (Reunion re : reuniones) {
-                    if (re.getFecha().equalsIgnoreCase(fe) && re.getLugar().equalsIgnoreCase(lug)
-                            && re.getNombre().equalsIgnoreCase(nom)) {
+                    if (re.getNombre().equalsIgnoreCase(nom)) {
                         Toast.makeText(this, "Esta reunión ya existe", Toast.LENGTH_SHORT).show();
                         entro = true;
                         break;

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,17 +36,21 @@ public class TomarFoto extends AppCompatActivity {
     ListView lvFotos;
     int cantidadFotos;
 
+    LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tomar_foto);
 
-        lvFotos = (ListView) findViewById(R.id.lvFotos);
+        layout = (LinearLayout) findViewById(R.id.layoutFotos);
+
+        //lvFotos = (ListView) findViewById(R.id.lvFotos);
         fotos = new ArrayList<>();
         cargarNumero();
-        //crearLayout();
-        recuperarFotos();
-        cargarFotos();
+        crearLayout();
+        //recuperarFotos();
+        //cargarFotos();
 
     }
 
@@ -54,7 +59,7 @@ public class TomarFoto extends AppCompatActivity {
         if (cantidadFotos == 0) {
             //"android.resource://archivosmultimedia.eam.archivosmultimedia/drawable"
             i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
-                    "/" + Reunion.getActual().getNombre() + "1");
+                    "/" + Reunion.getActual().getNombre() + "1" + ".jpg");
         } else {
             i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
                     "/" + Reunion.getActual().getNombre() + cantidadFotos + 1 + ".jpg");
@@ -62,9 +67,9 @@ public class TomarFoto extends AppCompatActivity {
         startActivity(i);
         cantidadFotos++;
         guardar();
-        //crearLayout();
-        recuperarFotos();
-        cargarFotos();
+        crearLayout();
+        //recuperarFotos();
+        //cargarFotos();
     }
 
     public void recuperarFotos() {
@@ -89,27 +94,21 @@ public class TomarFoto extends AppCompatActivity {
     }
 
     public void crearLayout() {
-        fotos.clear();
+        layout.removeAllViews();
 
         if (cantidadFotos != 0) {
             for (int i = 1; i <= cantidadFotos; i++) {
-                LinearLayout contenedor = new LinearLayout(getApplicationContext());
-                contenedor.setLayoutParams(new LinearLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-                contenedor.setOrientation(LinearLayout.VERTICAL);
-                //contenedor.setGravity(Gravity.CENTER);
-                contenedor.setPadding(0,10+i*2,0,0);
+
                 ImageView imagen = new ImageView(getApplicationContext());
-                /*Bitmap bitmap1 =
+
+                Bitmap bitmap1 =
                         BitmapFactory.decodeFile(
                                 getExternalFilesDir(null) +
                                         "/" + Reunion.getActual().getNombre() + i + ".jpg"
                         );
-                imagen.setImageBitmap(bitmap1);*/
                 imagen.setImageResource(R.mipmap.ic_launcher);
-                //fotos.add(imagen);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(400+i*2, 1500+i*2, Gravity.CENTER);
-                contenedor.addView(imagen);
-                addContentView(contenedor, params);
+                //imagen.setImageBitmap(bitmap1);
+                layout.addView(imagen);
             }
         } else {
             Toast.makeText(this, "La galería de fotos esta vacía", Toast.LENGTH_SHORT).show();
