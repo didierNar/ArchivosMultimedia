@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -29,7 +33,6 @@ public class TomarFoto extends AppCompatActivity {
 
     ArrayList<ImageView> fotos;
     ListView lvFotos;
-    String archivoCantidad = "archivoCantidad.txt";
     int cantidadFotos;
 
     @Override
@@ -40,6 +43,7 @@ public class TomarFoto extends AppCompatActivity {
         lvFotos = (ListView) findViewById(R.id.lvFotos);
         fotos = new ArrayList<>();
         cargarNumero();
+        //crearLayout();
         recuperarFotos();
         cargarFotos();
 
@@ -58,6 +62,7 @@ public class TomarFoto extends AppCompatActivity {
         startActivity(i);
         cantidadFotos++;
         guardar();
+        //crearLayout();
         recuperarFotos();
         cargarFotos();
     }
@@ -68,7 +73,7 @@ public class TomarFoto extends AppCompatActivity {
 
         if (cantidadFotos != 0) {
             for (int i = 1; i <= cantidadFotos; i++) {
-                ImageView imagen = new ImageView(this);
+                ImageView imagen = new ImageView(getApplicationContext());
                 Bitmap bitmap1 =
                         BitmapFactory.decodeFile(
                                 getExternalFilesDir(null) +
@@ -83,15 +88,44 @@ public class TomarFoto extends AppCompatActivity {
 
     }
 
+    public void crearLayout() {
+        fotos.clear();
+
+        if (cantidadFotos != 0) {
+            for (int i = 1; i <= cantidadFotos; i++) {
+                LinearLayout contenedor = new LinearLayout(getApplicationContext());
+                contenedor.setLayoutParams(new LinearLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                contenedor.setOrientation(LinearLayout.VERTICAL);
+                //contenedor.setGravity(Gravity.CENTER);
+                contenedor.setPadding(0,10+i*2,0,0);
+                ImageView imagen = new ImageView(getApplicationContext());
+                /*Bitmap bitmap1 =
+                        BitmapFactory.decodeFile(
+                                getExternalFilesDir(null) +
+                                        "/" + Reunion.getActual().getNombre() + i + ".jpg"
+                        );
+                imagen.setImageBitmap(bitmap1);*/
+                imagen.setImageResource(R.mipmap.ic_launcher);
+                //fotos.add(imagen);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(400+i*2, 1500+i*2, Gravity.CENTER);
+                contenedor.addView(imagen);
+                addContentView(contenedor, params);
+            }
+        } else {
+            Toast.makeText(this, "La galería de fotos esta vacía", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     public void cargarNumero() {
         try {
             String[] a = fileList();
             if (existeArchivo(a, Reunion.getNomArchivo())) {
                 InputStreamReader reader = new InputStreamReader(
-                        openFileInput(archivoCantidad));
+                        openFileInput("fotos" + Reunion.getActual().getNombre()+".txt"));
                 BufferedReader br = new BufferedReader(reader);
                 String linea = br.readLine();
-                if (linea == null){
+                if (linea == null) {
                     cantidadFotos = 0;
                 } else {
                     cantidadFotos = Integer.parseInt(linea.toString());
@@ -113,9 +147,10 @@ public class TomarFoto extends AppCompatActivity {
     public void guardar() {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
-                    openFileOutput(archivoCantidad, Activity.MODE_PRIVATE));
+                    openFileOutput("fotos" + Reunion.getActual().getNombre()+".txt",
+                            Activity.MODE_PRIVATE));
 
-            writer.write(cantidadFotos+"");
+            writer.write(cantidadFotos + "");
             writer.flush();
             writer.close();
 

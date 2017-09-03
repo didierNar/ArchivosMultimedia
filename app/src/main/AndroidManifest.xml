@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="archivosmultimedia.eam.archivosmultimedia">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,15 +17,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".InfoReunion" />
         <activity android:name=".GrabarVideo" />
         <activity android:name=".GrabarAudio" />
-        <activity android:name=".TomarFoto"></activity>
+        <activity android:name=".TomarFoto" />
         <activity android:name=".CrearReunion" />
         <activity android:name=".ListaReuniones" />
-
+        <activity android:name=".ReproducirVideo"></activity>
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Grabar nuevo video"
         android:id="@+id/btnGrabarVideo"
+        android:onClick="grabarVideo"
         android:layout_gravity="center_horizontal" />
 
     <Space
@@ -31,12 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView2"
-        android:layout_weight="0.73">
+        android:layout_weight="0.82">
 
         <ListView
+            android:id="@+id/listaVideos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listView2"
             android:layout_weight="0.08" />
     </ScrollView>
 
