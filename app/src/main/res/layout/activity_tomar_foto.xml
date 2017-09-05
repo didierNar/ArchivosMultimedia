@@ -24,8 +24,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.07">
+        android:layout_height="196dp"
+        android:layout_weight="0.98">
 
         <LinearLayout
             android:id="@+id/layoutFotos"

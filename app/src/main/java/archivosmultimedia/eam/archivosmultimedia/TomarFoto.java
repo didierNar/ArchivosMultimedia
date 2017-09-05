@@ -33,8 +33,6 @@ import archivosmultimedia.eam.archivosmultimedia.modelo.Reunion;
 
 public class TomarFoto extends AppCompatActivity {
 
-    ArrayList<ImageView> fotos;
-    ListView lvFotos;
     int cantidadFotos;
 
     LinearLayout layout;
@@ -49,14 +47,9 @@ public class TomarFoto extends AppCompatActivity {
         layout = (LinearLayout) findViewById(R.id.layoutFotos);
         listaFotos = new ArrayList<>();
 
-        //lvFotos = (ListView) findViewById(R.id.lvFotos);
-        fotos = new ArrayList<>();
         listarFotosGuardadas();
         cargarNumero();
         crearLayout();
-
-        //recuperarFotos();
-        //cargarFotos();
 
     }
 
@@ -79,32 +72,10 @@ public class TomarFoto extends AppCompatActivity {
         startActivity(i);
         cantidadFotos++;
         guardar();
-        crearLayout();
         listaFotos.add(foto);
         guardarObjeto();
-        //recuperarFotos();
-        //cargarFotos();
-    }
-
-    public void recuperarFotos() {
-
-        fotos.clear();
-
-        if (cantidadFotos != 0) {
-            for (int i = 1; i <= cantidadFotos; i++) {
-                ImageView imagen = new ImageView(getApplicationContext());
-                Bitmap bitmap1 =
-                        BitmapFactory.decodeFile(
-                                getExternalFilesDir(null) +
-                                        "/" + Reunion.getActual().getNombre() + i + ".jpg"
-                        );
-                imagen.setImageBitmap(bitmap1);
-                fotos.add(imagen);
-            }
-        } else {
-            Toast.makeText(this, "La galería de fotos esta vacía", Toast.LENGTH_SHORT).show();
-        }
-
+        listarFotosGuardadas();
+        crearLayout();
     }
 
     public void crearLayout() {
@@ -115,12 +86,9 @@ public class TomarFoto extends AppCompatActivity {
 
                 ImageView imagen = new ImageView(getApplicationContext());
 
-                Bitmap bitmap1 =
-                        BitmapFactory.decodeFile(
-                                listaFotos.get(i).getAbsolutePath()
-                        );
+                imagen.setImageURI(Uri.parse(getExternalFilesDir(null) + "/" +
+                        Reunion.getActual().getNombre() + i + ".png"));
                 //imagen.setImageResource(R.mipmap.ic_launcher);
-                imagen.setImageBitmap(bitmap1);
                 layout.addView(imagen);
             }
         } else {
@@ -132,7 +100,7 @@ public class TomarFoto extends AppCompatActivity {
     public void cargarNumero() {
         try {
             String[] a = fileList();
-            if (existeArchivo(a, Reunion.getNomArchivo())) {
+            if (existeArchivo(a, "fotos" + Reunion.getActual().getNombre()+".txt")) {
                 InputStreamReader reader = new InputStreamReader(
                         openFileInput("fotos" + Reunion.getActual().getNombre()+".txt"));
                 BufferedReader br = new BufferedReader(reader);
@@ -148,12 +116,6 @@ public class TomarFoto extends AppCompatActivity {
         } catch (IOException e) {
 
         }
-    }
-
-    public void cargarFotos() {
-        ArrayAdapter<ImageView> adapter = new ArrayAdapter<ImageView>(this,
-                android.R.layout.simple_list_item_1, fotos);
-        lvFotos.setAdapter(adapter);
     }
 
     public void guardar() {
@@ -184,7 +146,7 @@ public class TomarFoto extends AppCompatActivity {
     public void listarFotosGuardadas() {
         try {
             String[] a = fileList();
-            if (existeArchivo(a, Reunion.getNomArchivo())) {
+            if (existeArchivo(a, "listaFotos"+Reunion.getActual().getNombre())) {
                 ObjectInputStream reader = new ObjectInputStream(openFileInput
                         ("listaFotos"+Reunion.getActual().getNombre()));
                 listaFotos = (ArrayList<File>) reader.readObject();
