@@ -139,7 +139,6 @@ public class GrabarAudio extends AppCompatActivity implements MediaPlayer.OnComp
             cantidadAudios++;
             guardar();
             guardarArchivo();
-            listarAudios();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -243,6 +242,7 @@ public class GrabarAudio extends AppCompatActivity implements MediaPlayer.OnComp
             e.printStackTrace();
         }
 
+        listarAudios();
 
         //habilitamos el boton de grabar
         btnGrabarAudio.setEnabled(true);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -57,12 +58,18 @@ public class TomarFoto extends AppCompatActivity {
     public void tomarfoto(View v) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cantidadFotos == 0) {
+            File foto = new File(getExternalFilesDir(null), Reunion.getActual().
+                    getNombre() + "1" + ".png");
+            i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(foto));
             //"android.resource://archivosmultimedia.eam.archivosmultimedia/drawable"
-            i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
-                    "/" + Reunion.getActual().getNombre() + "1" + ".jpg");
+           // i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
+             //       "/" + Reunion.getActual().getNombre() + "1" + ".jpg");
         } else {
-            i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
-                    "/" + Reunion.getActual().getNombre() + cantidadFotos + 1 + ".jpg");
+            File foto = new File(getExternalFilesDir(null), Reunion.getActual().getNombre()
+                    + cantidadFotos + 1 + ".png");
+           // i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
+             //       "/" + Reunion.getActual().getNombre() + cantidadFotos + 1 + ".jpg");
+            i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(foto));
         }
         startActivity(i);
         cantidadFotos++;
@@ -160,16 +167,12 @@ public class TomarFoto extends AppCompatActivity {
     }
 
     private boolean existeArchivo(String[] archivos, String archBuscar) {
-
         for (int f = 0; f < archivos.length; f++) {
             if (archBuscar.equals(archivos[f])) {
                 return true;
             }
-
         }
         return false;
-
-
     }
 
 

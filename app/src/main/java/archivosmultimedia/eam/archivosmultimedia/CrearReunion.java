@@ -150,8 +150,8 @@ public class CrearReunion extends AppCompatActivity implements View.OnClickListe
             final Calendar c = Calendar.getInstance();
 
             dia = c.get(Calendar.DAY_OF_MONTH);
-            mes = c.get(Calendar.MONTH);
-            anio = c.get(Calendar.YEAR) + 117;
+            mes = c.get(Calendar.MONTH) + 1;
+            anio = c.get(Calendar.YEAR);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -160,7 +160,7 @@ public class CrearReunion extends AppCompatActivity implements View.OnClickListe
                     fecha.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                 }
             }
-                    , dia, mes, anio);
+                    , anio, mes, dia);
             datePickerDialog.show();
         }
 
