@@ -38,6 +38,8 @@ public class TomarFoto extends AppCompatActivity {
     int cantidadFotos;
 
     LinearLayout layout;
+    File foto;
+    ArrayList<File> listaFotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,14 @@ public class TomarFoto extends AppCompatActivity {
         setContentView(R.layout.activity_tomar_foto);
 
         layout = (LinearLayout) findViewById(R.id.layoutFotos);
+        listaFotos = new ArrayList<>();
 
         //lvFotos = (ListView) findViewById(R.id.lvFotos);
         fotos = new ArrayList<>();
+        listarFotosGuardadas();
         cargarNumero();
         crearLayout();
+
         //recuperarFotos();
         //cargarFotos();
 
@@ -58,14 +63,14 @@ public class TomarFoto extends AppCompatActivity {
     public void tomarfoto(View v) {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cantidadFotos == 0) {
-            File foto = new File(getExternalFilesDir(null), Reunion.getActual().
+            foto = new File(getExternalFilesDir(null), Reunion.getActual().
                     getNombre() + "1" + ".png");
             i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(foto));
             //"android.resource://archivosmultimedia.eam.archivosmultimedia/drawable"
            // i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
              //       "/" + Reunion.getActual().getNombre() + "1" + ".jpg");
         } else {
-            File foto = new File(getExternalFilesDir(null), Reunion.getActual().getNombre()
+            foto = new File(getExternalFilesDir(null), Reunion.getActual().getNombre()
                     + cantidadFotos + 1 + ".png");
            // i.putExtra(MediaStore.EXTRA_OUTPUT, getExternalFilesDir(null) +
              //       "/" + Reunion.getActual().getNombre() + cantidadFotos + 1 + ".jpg");
@@ -75,6 +80,8 @@ public class TomarFoto extends AppCompatActivity {
         cantidadFotos++;
         guardar();
         crearLayout();
+        listaFotos.add(foto);
+        guardarObjeto();
         //recuperarFotos();
         //cargarFotos();
     }
@@ -103,18 +110,17 @@ public class TomarFoto extends AppCompatActivity {
     public void crearLayout() {
         layout.removeAllViews();
 
-        if (cantidadFotos != 0) {
-            for (int i = 1; i <= cantidadFotos; i++) {
+        if (listaFotos.size() != 0) {
+            for (int i = 1; i <= listaFotos.size(); i++) {
 
                 ImageView imagen = new ImageView(getApplicationContext());
 
                 Bitmap bitmap1 =
                         BitmapFactory.decodeFile(
-                                getExternalFilesDir(null) +
-                                        "/" + Reunion.getActual().getNombre() + i + ".jpg"
+                                listaFotos.get(i).getAbsolutePath()
                         );
-                imagen.setImageResource(R.mipmap.ic_launcher);
-                //imagen.setImageBitmap(bitmap1);
+                //imagen.setImageResource(R.mipmap.ic_launcher);
+                imagen.setImageBitmap(bitmap1);
                 layout.addView(imagen);
             }
         } else {
@@ -173,6 +179,36 @@ public class TomarFoto extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void listarFotosGuardadas() {
+        try {
+            String[] a = fileList();
+            if (existeArchivo(a, Reunion.getNomArchivo())) {
+                ObjectInputStream reader = new ObjectInputStream(openFileInput
+                        ("listaFotos"+Reunion.getActual().getNombre()));
+                listaFotos = (ArrayList<File>) reader.readObject();
+                reader.close();
+            }
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException c) {
+
+        }
+    }
+
+    public void guardarObjeto() {
+        try {
+            ObjectOutputStream writer = new ObjectOutputStream
+                    (openFileOutput("listaFotos"+Reunion.getActual().getNombre(),
+                            Activity.MODE_PRIVATE));
+            writer.writeObject(listaFotos);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            Toast.makeText(this, "Error al crear el archivo", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
 
